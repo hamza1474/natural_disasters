@@ -39,20 +39,41 @@ for imagePath in imagePaths:
 
 	data.append(image)
 	labels.append(label)
-
+del imagePaths
 print("[INFO] processing data...")
 data = np.array(data, dtype="float32")
 labels = np.array(labels)
+def unison_shuffled_copies(a, b):
+    assert len(a) == len(b)
+    p = np.random.permutation(len(a))
+    return a[p], b[p]
+data, labels = unison_shuffled_copies(data, labels)
 # Onehot
 lb = LabelBinarizer()
 labels = lb.fit_transform(labels)
+print("debug0.4")
+length=len(labels)
+testsplit = int(length*(1-config.TEST_SPLIT))
+trainX = data[:testsplit]
+trainY = labels[:testsplit]
+testX = data[testsplit:]
+testY = labels[testsplit:]
+del data
+del labels
+length_val = len(trainY)
+valsplit = int(length_val*(1-config.VAL_SPLIT))
+trainX = trainX[:valsplit]
+trainY = trainY[:valsplit]
+valX = trainX[valsplit:]
+valY = trainY[valsplit:]
 
 # Train Test Val split
-(trainX, testX, trainY, testY) = train_test_split(data, labels, 
-	test_size=config.TEST_SPLIT, random_state=42)
-(trainX, valX, trainY, valY) = train_test_split(trainX, trainY, 
-	test_size=config.VAL_SPLIT, random_state=84)
-
+#(trainX, testX, trainY, testY) = train_test_split(data, labels, 
+#	test_size=config.TEST_SPLIT, random_state=42)
+#print(trainX.shape, trainY.shape)
+#(trainX, valX, trainY, valY) = train_test_split(trainX, trainY, 
+#	test_size=config.VAL_SPLIT, random_state=84)
+print("debug0.6")
 # data augmentation
 aug = ImageDataGenerator(
 	rotation_range=30,
@@ -62,10 +83,13 @@ aug = ImageDataGenerator(
 	shear_range=0.15,
 	horizontal_flip=True,
 	fill_mode="nearest")
-
+print("debug.07")
 # Model
 base_model = VGG16(include_top=False, weights="imagenet",
-	input_tensor=Input(shape=(224, 224, 3)), trainable=False)
+	input_tensor=Input(shape=(224, 224, 3)))
+
+for layer in base_model.layers:
+    layer.trainable = False
 
 X = base_model.output
 X = Flatten(name="flatten")(X)

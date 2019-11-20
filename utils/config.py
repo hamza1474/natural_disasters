@@ -6,8 +6,8 @@ TRAIN_SPLIT = 0.75
 TEST_SPLIT = 0.25
 VAL_SPLIT = 0.1
 
-MIN_LR = None
-MAX_LR = None
+MIN_LR = 1e-6
+MAX_LR = 1e-4
 BATCH_SIZE = 32
 STEP_SIZE = 8
 CLR_METHOD = 'triangular'
