@@ -50,7 +50,7 @@ labels = lb.fit_transform(labels)
 # Train Test Val split
 (trainX, testX, trainY, testY) = train_test_split(data, labels, 
 	test_size=config.TEST_SPLIT, random_state=42)
-trainX, valX, trainY, valY) = train_test_split(trainX, trainY, 
+(trainX, valX, trainY, valY) = train_test_split(trainX, trainY, 
 	test_size=config.VAL_SPLIT, random_state=84)
 
 # data augmentation
