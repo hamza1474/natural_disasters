@@ -88,7 +88,7 @@ if args["lr_find"] > 0:
 		aug.flow(trainX, trainY, batch_size=config.BATCH_SIZE),
 		1e-10, 1e+1,
 		stepsPerEpoch=np.ceil((trainX.shape[0]/float(config.BATCH_SIZE))),
-		epochs=20
+		epochs=20,
 		batchSize=config.BATCH_SIZE)
 	
 	lrf.plot_loss()
