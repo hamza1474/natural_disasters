@@ -32,7 +32,7 @@ data = []
 labels = []
 # get data and convert to arrays and onehot
 for imagePath in imagePaths:
-	label = imagePaths.split(os.path.sep)[-2]
+	label = imagePath.split(os.path.sep)[-2]
 	image = cv2.imread(imagePath)
 	image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 	image = cv2.resize(image, (224, 224))
