@@ -130,11 +130,11 @@ clr = CyclicLR(
 	max_lr=config.MAX_LR,
 	step_size=stepSize
 )
-
+print(trainX.shape)
 # train
 print("[INFO] training...")
 history = model.fit_generator(
-	aug.flow(trainX, trainY, batchSize=config.BATCH_SIZE),
+	aug.flow(trainX, trainY, batch_size=config.BATCH_SIZE),
 	validation_data=(valX, valY),
 	steps_per_epoch=trainX.shape[0]//config.BATCH_SIZE,
 	epochs=config.NUM_EPOCHS,
